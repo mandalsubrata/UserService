@@ -6,10 +6,7 @@ import com.mandal.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,13 +37,11 @@ public class UserController {
         return "register";
     }
 
-    @GetMapping
-    public String deleteUser(@RequestParam Long id, Model model) {
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
         System.out.println("Deleting user with ID: " + id);
         userService.deleteUser(id);
-        List<User> users = userService.getUsers();
-        model.addAttribute("users", users);
-        return "users";
+        return "redirect:/users";
     }
 
     @PostMapping("/register")
