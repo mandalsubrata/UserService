@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        .form-container {
+            width: 350px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 200px;
+            padding: 5px;
+        }
+
+        .submit-btn {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            padding: 8px 20px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div th:if="${errorMessage}">
+    <p th:text="errorMessage" style="color:red;"></p></div>
+
+<div class="form-container">
+
+    <h1>User Registration</h1>
+    <div class="form-group">
+        <form th:action="@{/register}" method="post" th:object="${user}">
+            <div class="form-fields">
+
+                <div class="name-field">
+                    <label for="username">Name:</label>
+                    <input type="text" id="username" th:field="*{username}"/><br/><br/>
+                </div>
+
+                <div class="id-field">
+                    <label for="id">Id:</label>
+                    <input type="text" id="id" th:field="*{id}"/><br/><br/>
+                </div>
+
+                <div class="email-field">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}"/><br/><br/>
+                </div>
+                <div class="submit-btn">
+                    <input type="submit" value="Submit"/>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
