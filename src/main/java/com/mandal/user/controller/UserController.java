@@ -6,10 +6,11 @@ import com.mandal.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,7 +21,7 @@ public class UserController {
     @GetMapping("/user")
     public String getUser(Model model, @RequestParam(required = false) Long id) {
         User user = userService.getUser(id);
-        System.out.println("user-->>"+user);
+        System.out.println("user-->>" + user);
         model.addAttribute("user", user);
         return "user";
     }
@@ -28,10 +29,10 @@ public class UserController {
     @GetMapping("/users")
     public String getUsers(Model model) {
         List<User> users = userService.getUsers();
-        System.out.println("user-->>"+ Arrays.toString(users.toArray()));
-        model.addAttribute("user", users);
-        return "user";
+        model.addAttribute("users", users);
+        return "users";
     }
+
 
     @GetMapping("/register")
     public String showForm(Model model) {
@@ -39,12 +40,21 @@ public class UserController {
         return "register";
     }
 
+    @GetMapping
+    public String deleteUser(@RequestParam Long id, Model model) {
+        System.out.println("Deleting user with ID: " + id);
+        userService.deleteUser(id);
+        List<User> users = userService.getUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, Model model) {
         model.addAttribute("user", user);
+        User newUser = userService.saveUser(user);
+        System.out.println("New registered User : " + newUser);
 
-        System.out.println("Registered User : " + user);
-        User userq= userService.saveUser(user);
         return "user";  // show user details on user.html
     }
 }
